@@ -51,7 +51,7 @@ struct ContentView: View {
                     }
                     .padding()
 }
-                HStack{
+                VStack{
                     Button("Sepia"){
                         if let inputImage = selectedImage{
                             let beginImage = CIImage(image: inputImage)
@@ -66,6 +66,65 @@ struct ContentView: View {
                             }
                         }
                     }
+                    
+                    Button("Color Matrix"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.colorMatrix()
+                            currentFilter.inputImage = beginImage
+
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage: cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                    }
+                    
+                    Button("Box Blur"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.boxBlur()
+                            currentFilter.inputImage = beginImage
+
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage: cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                    }
+                    
+                    Button("Circular Wrap"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.circularWrap()
+                            currentFilter.inputImage = beginImage
+
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage: cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                    }
+                    
+                    Button("Noir"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.photoEffectNoir()
+                            currentFilter.inputImage = beginImage
+
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage: cgImage)
+                                self.selectedImage = uiImage
+                            }
+                        }
+                    }
+
+                    
+                    
                 }.sheet(isPresented: self.$displayPickerView) {
                     ImagePickerView(selectedImage: self.$selectedImage, sourceType: self.sourceType)
                 }
